@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Shrine of Absence</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Courier New', monospace;
+            background: #ffffff;
+            color: #000000;
+            overflow-x: hidden;
+            cursor: crosshair;
+        }
+
+        .hero-section {
+            position: relative;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(45deg, #dddbdb 0%, #b9b9b9 50%, #a1a1a1 100%);
+            z-index: 1;
+        }
+
+        .background-ruins {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0.1;
+            background: 
+                radial-gradient(circle at 20% 20%, rgba(139, 69, 19, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(75, 0, 130, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 50% 50%, rgba(139, 69, 19, 0.05) 0%, transparent 70%);
+            animation: ruinsShift 20s ease-in-out infinite;
+        }
+
+        @keyframes ruinsShift {
+            0%, 100% { transform: translateX(0) translateY(0); }
+            25% { transform: translateX(-20px) translateY(-10px); }
+            50% { transform: translateX(20px) translateY(10px); }
+            75% { transform: translateX(-10px) translateY(20px); }
+        }
+
+        .central-symbol {
+            position: relative;
+            width: 320px;
+            height: 320px;
+            border: 3px solid #0f0e0e;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: radial-gradient(circle, rgba(66, 62, 59, 0.1) 0%, transparent 70%);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            overflow: hidden;
+        }
+
+        .central-symbol:hover {
+            border-color: #161513;
+            box-shadow: 0 0 30px rgba(14, 13, 13, 0.5);
+            transform: scale(1.05);
+        }
+
+        .logo-placeholder {
+            width: 340px;
+            height: 340px;
+            background: rgba(0, 0, 0, 0.5);
+            border: 3px dashed #131212;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #000000;
+            font-size: 14px;
+            font-weight: bold;
+            text-align: center;
+            transition: all 0.3s ease;
+            border-radius: 8px;
+            text-shadow: 0 0 5px rgba(31, 29, 28, 0.8);
+        }
+
+        .central-symbol:hover .logo-placeholder {
+            border-color: #0c0c0c;
+            color: #000000;
+            background: rgba(39, 37, 35, 0.3);
+            box-shadow: 0 0 15px rgba(17, 17, 17, 0.5);
+        }
+
+        .cryptic-text {
+            position: absolute;
+            pointer-events: none;
+            font-size: 14px;
+            color: #31302f;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            white-space: nowrap;
+            text-shadow: 0 0 10px rgba(139, 69, 19, 0.5);
+        }
+
+        .cryptic-text.show {
+            opacity: 1;
+        }
+
+        .main-interface {
+            display: none;
+            min-height: 100vh;
+            padding: 60px 20px;
+            background: #ffffff;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .section {
+            margin-bottom: 80px;
+            padding: 40px;
+            background: rgba(255, 255, 255, 0.9);
+            border: 1px solid rgba(0, 0, 0, 0.3);
+            border-radius: 0;
+            backdrop-filter: blur(10px);
+            color: #000000;
+        }
+
+        .section-title {
+            font-size: 28px;
+            color: #000000;
+            margin-bottom: 30px;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            border-bottom: 2px solid rgba(0, 0, 0, 0.3);
+            padding-bottom: 15px;
+        }
+
+        .sacrifice-section {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.9) 0%, rgba(255, 255, 255, 0.9) 100%);
+            border: 2px solid rgba(0, 0, 0, 0.5);
+        }
+
+        .ritual-button {
+            background: linear-gradient(45deg, #000000 0%, #333333 100%);
+            color: #ffffff;
+            border: none;
+            padding: 20px 50px;
+            font-size: 18px;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border-radius: 0;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .ritual-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.5);
+            background: linear-gradient(45deg, #333333 0%, #666666 100%);
+        }
+
+        .balance-display {
+            font-size: 24px;
+            color: #000000;
+            margin: 30px 0;
+            text-shadow: none;
+        }
+
+        .book-section {
+            background: rgba(255, 255, 255, 0.95);
+            border: 2px solid rgba(0, 0, 0, 0.2);
+            text-align: left;
+        }
+
+        .verse {
+            display: none;
+            padding: 30px;
+            line-height: 1.8;
+            font-size: 16px;
+            color: #000000;
+        }
+
+        .verse.active {
+            display: block;
+        }
+
+        .verse-title {
+            font-size: 20px;
+            color: #000000;
+            margin-bottom: 20px;
+            font-weight: bold;
+        }
+
+        .verse-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(0, 0, 0, 0.3);
+        }
+
+        .verse-button {
+            background: rgba(0, 0, 0, 0.2);
+            color: #000000;
+            border: 1px solid rgba(0, 0, 0, 0.5);
+            padding: 10px 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Courier New', monospace;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .verse-button:hover {
+            background: rgba(0, 0, 0, 0.4);
+            color: #000000;
+        }
+
+        .verse-button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .verse-counter {
+            color: #000000;
+            font-size: 14px;
+        }
+
+        .connected-state {
+            display: none;
+        }
+
+        .blood-symbol {
+            color: #000000;
+            font-size: 20px;
+            margin-right: 10px;
+        }
+
+        .social-links {
+            margin-top: 40px;
+            padding-top: 30px;
+            border-top: 1px solid rgba(0, 0, 0, 0.3);
+        }
+
+        .social-item {
+            margin-bottom: 20px;
+            font-size: 16px;
+            color: #000000;
+        }
+
+        .social-label {
+            color: #000000;
+            font-weight: bold;
+            margin-right: 10px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .social-link {
+            color: #000000;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            border-bottom: 1px solid transparent;
+        }
+
+        .social-link:hover {
+            color: #333333;
+            border-bottom: 1px solid #333333;
+        }
+
+        .ca-address {
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            word-break: break-all;
+            background: rgba(0, 0, 0, 0.1);
+            padding: 10px;
+            border-radius: 4px;
+            border: 1px solid rgba(0, 0, 0, 0.3);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            color: #000000;
+        }
+
+        .ca-address:hover {
+            background: rgba(0, 0, 0, 0.2);
+            border-color: rgba(0, 0, 0, 0.5);
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+            }
+            
+            .section {
+                padding: 30px 20px;
+            }
+            
+            .section-title {
+                font-size: 24px;
+            }
+            
+            .ritual-button {
+                padding: 15px 30px;
+                font-size: 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="hero-section" id="heroSection">
+        <div class="background-ruins"></div>
+        <div class="central-symbol" id="centralSymbol">
+            <div class="logo-placeholder">
+<img src="Progetto senza titolo (1).png" alt="Logo" style="width: 300px; height: 300px;">            </div>
+            <div class="cryptic-text" id="crypticText" style="top: -60px; left: 50%; transform: translateX(-50%);">He never arrived.</div>
+            <div class="cryptic-text" style="bottom: -60px; left: 50%; transform: translateX(-50%);">The worship ended.</div>
+            <div class="cryptic-text" style="left: -120px; top: 50%; transform: translateY(-50%);">We cast the coin to the void.</div>
+        </div>
+    </div>
+
+    <div class="main-interface" id="mainInterface">
+        <div class="container">
+            <div class="section sacrifice-section">
+                <h2 class="section-title">🕳️ No Prophets, Only Pairs</h2>
+                <div class="initial-state" id="initialState">
+                    <button class="ritual-button" id="connectButton">Sacrifice Your Wallet</button>
+                </div>
+                <div class="connected-state" id="connectedState">
+                    <div class="balance-display" id="balanceDisplay">
+                        <span class="blood-symbol">🩸</span>You carry 0.12 SOL. Are you ready to surrender?
+                    </div>
+                    <button class="ritual-button" id="bleedButton">Bleed It</button>
+                </div>
+                <div class="social-links">
+                    <div class="social-item">
+                        <span class="social-label">Twitter:</span>
+                        <a href="https://twitter.com/godlesscoin" class="social-link" target="_blank">@godlesscoin</a>
+                    </div>
+                    <div class="social-item">
+                        <span class="social-label">Contract Address:</span>
+                        <div class="ca-address" onclick="copyToClipboard(this)" title="Click to copy">
+                            here
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section book-section">
+                <h2 class="section-title">📖 Book of Nothing</h2>
+                <div class="verse active" id="verse1">
+                    <div class="verse-title">Genesis 404</div>
+                    <p>In the beginning, there was hype. Then there was nothing.</p>
+                    <p>The developers spoke unto the void, and the void responded with silence. They cast their tokens into the digital abyss, believing in the prophecy of eternal gains.</p>
+                    <p>But the prophecy was false, and the gains were but shadows dancing on the blockchain.</p>
+                </div>
+                <div class="verse" id="verse2">
+                    <div class="verse-title">Psalm 13.37</div>
+                    <p>The dev is dead. Long live the hash.</p>
+                    <p>We gather in the darkness of abandoned Discord servers, whispering the sacred words of technical analysis. Our candles burn red, our portfolios bleed.</p>
+                    <p>Yet still we HODL, for what is faith without suffering?</p>
+                </div>
+                <div class="verse" id="verse3">
+                    <div class="verse-title">Revelation 0.00</div>
+                    <p>The Godless Coin knows no purpose. And that is its truth.</p>
+                    <p>In the end times, when all utilities have failed and all roadmaps have led to nowhere, only the purposeless shall remain.</p>
+                    <p>For we are the children of the void, and the void is our inheritance.</p>
+                </div>
+                <div class="verse-nav">
+                    <button class="verse-button" id="prevVerse" disabled>Previous Verse</button>
+                    <div class="verse-counter">
+                        <span id="currentVerse">1</span> / <span id="totalVerses">3</span>
+                    </div>
+                    <button class="verse-button" id="nextVerse">Next Verse</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentVerseIndex = 0;
+        const totalVerses = 3;
+        let isConnected = false;
+        
+        // Cryptic phrases for hover effect
+        const crypticPhrases = [
+            "He never arrived.",
+            "The worship ended.",
+            "We cast the coin to the void.",
+            "The altar remains empty.",
+            "No salvation in the hash."
+        ];
+
+        // Hero section interactions
+        const heroSection = document.getElementById('heroSection');
+        const centralSymbol = document.getElementById('centralSymbol');
+        const mainInterface = document.getElementById('mainInterface');
+        const crypticText = document.getElementById('crypticText');
+
+        // Random cryptic text on hover
+        centralSymbol.addEventListener('mouseenter', () => {
+            const randomPhrase = crypticPhrases[Math.floor(Math.random() * crypticPhrases.length)];
+            crypticText.textContent = randomPhrase;
+            crypticText.classList.add('show');
+        });
+
+        centralSymbol.addEventListener('mouseleave', () => {
+            crypticText.classList.remove('show');
+        });
+
+        // Click to enter main interface
+        centralSymbol.addEventListener('click', () => {
+            heroSection.style.display = 'none';
+            mainInterface.style.display = 'block';
+        });
+
+        // Wallet connection simulation
+        const connectButton = document.getElementById('connectButton');
+        const initialState = document.getElementById('initialState');
+        const connectedState = document.getElementById('connectedState');
+        const bleedButton = document.getElementById('bleedButton');
+
+        connectButton.addEventListener('click', () => {
+            // Simulate wallet connection
+            setTimeout(() => {
+                isConnected = true;
+                initialState.style.display = 'none';
+                connectedState.style.display = 'block';
+                
+                // Random balance simulation
+                const balance = (Math.random() * 10).toFixed(2);
+                document.getElementById('balanceDisplay').innerHTML = 
+                    `<span class="blood-symbol">🩸</span>You carry ${balance} SOL. Are you ready to surrender?`;
+            }, 1000);
+        });
+
+        bleedButton.addEventListener('click', () => {
+            bleedButton.textContent = 'Sacrificing...';
+            bleedButton.disabled = true;
+            
+            setTimeout(() => {
+                bleedButton.textContent = 'The Void Consumes';
+                bleedButton.style.background = 'linear-gradient(45deg, #333333 0%, #666666 100%)';
+            }, 2000);
+        });
+
+        // Book of Nothing navigation
+        const prevButton = document.getElementById('prevVerse');
+        const nextButton = document.getElementById('nextVerse');
+        const currentVerseSpan = document.getElementById('currentVerse');
+
+        function showVerse(index) {
+            // Hide all verses
+            document.querySelectorAll('.verse').forEach(verse => {
+                verse.classList.remove('active');
+            });
+            
+            // Show current verse
+            document.getElementById(`verse${index + 1}`).classList.add('active');
+            
+            // Update navigation
+            currentVerseSpan.textContent = index + 1;
+            prevButton.disabled = index === 0;
+            nextButton.disabled = index === totalVerses - 1;
+            
+            if (index === totalVerses - 1) {
+                nextButton.textContent = 'End of Scripture';
+            } else {
+                nextButton.textContent = 'Next Verse';
+            }
+        }
+
+        prevButton.addEventListener('click', () => {
+            if (currentVerseIndex > 0) {
+                currentVerseIndex--;
+                showVerse(currentVerseIndex);
+            }
+        });
+
+        nextButton.addEventListener('click', () => {
+            if (currentVerseIndex < totalVerses - 1) {
+                currentVerseIndex++;
+                showVerse(currentVerseIndex);
+            }
+        });
+
+        // Initialize
+        showVerse(0);
+
+        // Copy to clipboard function
+        function copyToClipboard(element) {
+            const text = element.textContent;
+            navigator.clipboard.writeText(text).then(() => {
+                const originalText = element.textContent;
+                element.textContent = 'Copied to void...';
+                element.style.color = '#333333';
+                
+                setTimeout(() => {
+                    element.textContent = originalText;
+                    element.style.color = '#000000';
+                }, 2000);
+            }).catch(() => {
+                // Fallback for older browsers
+                const textArea = document.createElement('textarea');
+                textArea.value = text;
+                document.body.appendChild(textArea);
+                textArea.select();
+                document.execCommand('copy');
+                document.body.removeChild(textArea);
+                
+                const originalText = element.textContent;
+                element.textContent = 'Copied to void...';
+                element.style.color = '#333333';
+                
+                setTimeout(() => {
+                    element.textContent = originalText;
+                    element.style.color = '#000000';
+                }, 2000);
+            });
+        }
+    </script>
+</body>
+</html>
