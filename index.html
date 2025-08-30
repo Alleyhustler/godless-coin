@@ -23,6 +23,7 @@
             position: relative;
             height: 100vh;
             display: flex;
+            flex-direction: column;
             align-items: center;
             justify-content: center;
             background: linear-gradient(45deg, #dddbdb 0%, #b9b9b9 50%, #a1a1a1 100%);
@@ -50,6 +51,23 @@
             75% { transform: translateX(-10px) translateY(20px); }
         }
 
+        .token-title {
+            font-size: 48px;
+            font-weight: bold;
+            color: #000000;
+            text-transform: uppercase;
+            letter-spacing: 8px;
+            margin-bottom: 30px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .token-title:hover {
+            color: #333333;
+            text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.5);
+            letter-spacing: 10px;
+        }
+
         .central-symbol {
             position: relative;
             width: 320px;
@@ -72,27 +90,20 @@
         }
 
         .logo-placeholder {
-            width: 340px;
-            height: 340px;
-            background: rgba(0, 0, 0, 0.5);
-            border: 3px dashed #131212;
+            width: 300px;
+            height: 300px;
             display: flex;
             align-items: center;
             justify-content: center;
-            color: #000000;
-            font-size: 14px;
-            font-weight: bold;
-            text-align: center;
-            transition: all 0.3s ease;
-            border-radius: 8px;
-            text-shadow: 0 0 5px rgba(31, 29, 28, 0.8);
+            border-radius: 50%;
+            overflow: hidden;
         }
 
-        .central-symbol:hover .logo-placeholder {
-            border-color: #0c0c0c;
-            color: #000000;
-            background: rgba(39, 37, 35, 0.3);
-            box-shadow: 0 0 15px rgba(17, 17, 17, 0.5);
+        .logo-placeholder img {
+            width: 300px;
+            height: 300px;
+            object-fit: cover;
+            border-radius: 50%;
         }
 
         .cryptic-text {
@@ -298,6 +309,11 @@
         }
 
         @media (max-width: 768px) {
+            .token-title {
+                font-size: 32px;
+                letter-spacing: 4px;
+            }
+            
             .container {
                 padding: 20px;
             }
@@ -320,9 +336,11 @@
 <body>
     <div class="hero-section" id="heroSection">
         <div class="background-ruins"></div>
+        <h1 class="token-title">Godless Token</h1>
         <div class="central-symbol" id="centralSymbol">
             <div class="logo-placeholder">
-<img src="Progetto senza titolo (1).png" alt="Logo" style="width: 300px; height: 300px;">            </div>
+                <img src="Progetto senza titolo (1).png" alt="Godless Token Logo">
+            </div>
             <div class="cryptic-text" id="crypticText" style="top: -60px; left: 50%; transform: translateX(-50%);">He never arrived.</div>
             <div class="cryptic-text" style="bottom: -60px; left: 50%; transform: translateX(-50%);">The worship ended.</div>
             <div class="cryptic-text" style="left: -120px; top: 50%; transform: translateY(-50%);">We cast the coin to the void.</div>
