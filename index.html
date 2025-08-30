@@ -106,6 +106,26 @@
             border-radius: 50%;
         }
 
+        .click-hint {
+            position: absolute;
+            bottom: -50px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 12px;
+            color: #31302f;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            opacity: 0.8;
+            transition: all 0.3s ease;
+            pointer-events: none;
+        }
+
+        .central-symbol:hover .click-hint {
+            opacity: 1;
+            color: #000000;
+            bottom: -55px;
+        }
+
         .cryptic-text {
             position: absolute;
             pointer-events: none;
@@ -341,6 +361,7 @@
             <div class="logo-placeholder">
                 <img src="Progetto senza titolo (1).png" alt="Godless Token Logo">
             </div>
+            <div class="click-hint">Click to Enter the Void</div>
             <div class="cryptic-text" id="crypticText" style="top: -60px; left: 50%; transform: translateX(-50%);">He never arrived.</div>
             <div class="cryptic-text" style="bottom: -60px; left: 50%; transform: translateX(-50%);">The worship ended.</div>
             <div class="cryptic-text" style="left: -120px; top: 50%; transform: translateY(-50%);">We cast the coin to the void.</div>
