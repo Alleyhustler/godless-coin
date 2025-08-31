@@ -74,21 +74,91 @@
             position: relative;
             width: 320px;
             height: 320px;
-            border: 3px solid #0f0e0e;
+            border: 4px solid #0f0e0e;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            background: radial-gradient(circle, rgba(66, 62, 59, 0.1) 0%, transparent 70%);
-            transition: all 0.3s ease;
+            background: 
+                radial-gradient(circle, rgba(255, 255, 255, 0.3) 0%, rgba(200, 200, 200, 0.2) 40%, transparent 70%),
+                linear-gradient(135deg, rgba(255, 255, 255, 0.2) 0%, rgba(0, 0, 0, 0.1) 100%);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             cursor: pointer;
-            overflow: hidden;
+            overflow: visible;
+            box-shadow: 
+                0 12px 40px rgba(0, 0, 0, 0.25),
+                inset 0 2px 10px rgba(255, 255, 255, 0.3),
+                inset 0 -2px 10px rgba(0, 0, 0, 0.1),
+                0 0 0 8px rgba(0, 0, 0, 0.05);
+            animation: buttonPulse 2s ease-in-out infinite;
+        }
+
+        .central-symbol::before {
+            content: '';
+            position: absolute;
+            top: -8px;
+            left: -8px;
+            right: -8px;
+            bottom: -8px;
+            border: 2px dashed rgba(0, 0, 0, 0.3);
+            border-radius: 50%;
+            animation: rotateHint 8s linear infinite;
+        }
+
+        @keyframes rotateHint {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        @keyframes buttonPulse {
+            0%, 100% { 
+                transform: translateY(0px);
+                box-shadow: 
+                    0 12px 40px rgba(0, 0, 0, 0.25),
+                    inset 0 2px 10px rgba(255, 255, 255, 0.3),
+                    inset 0 -2px 10px rgba(0, 0, 0, 0.1),
+                    0 0 0 8px rgba(0, 0, 0, 0.05);
+            }
+            50% { 
+                transform: translateY(-8px);
+                box-shadow: 
+                    0 20px 60px rgba(0, 0, 0, 0.35),
+                    inset 0 4px 15px rgba(255, 255, 255, 0.4),
+                    inset 0 -4px 15px rgba(0, 0, 0, 0.15),
+                    0 0 0 12px rgba(0, 0, 0, 0.08);
+            }
+        }
+
+        @keyframes pulseGlow {
+            0%, 100% { 
+                box-shadow: 
+                    0 12px 40px rgba(0, 0, 0, 0.25),
+                    inset 0 2px 10px rgba(255, 255, 255, 0.3),
+                    inset 0 -2px 10px rgba(0, 0, 0, 0.1),
+                    0 0 0 8px rgba(0, 0, 0, 0.05);
+            }
+            50% { 
+                box-shadow: 
+                    0 20px 60px rgba(0, 0, 0, 0.35),
+                    inset 0 4px 15px rgba(255, 255, 255, 0.4),
+                    inset 0 -4px 15px rgba(0, 0, 0, 0.15),
+                    0 0 0 12px rgba(0, 0, 0, 0.08);
+            }
         }
 
         .central-symbol:hover {
             border-color: #161513;
-            box-shadow: 0 0 30px rgba(14, 13, 13, 0.5);
-            transform: scale(1.05);
+            transform: scale(1.08) translateY(-5px);
+            box-shadow: 
+                0 20px 60px rgba(0, 0, 0, 0.4),
+                inset 0 0 40px rgba(255, 255, 255, 0.2),
+                0 0 80px 10px rgba(0, 0, 0, 0.2);
+            animation: none;
+        }
+
+        .central-symbol:active {
+            transform: scale(1.02) translateY(-2px);
+            transition: all 0.1s ease;
         }
 
         .logo-placeholder {
@@ -113,19 +183,39 @@
             bottom: -50px;
             left: 50%;
             transform: translateX(-50%);
-            font-size: 12px;
-            color: #31302f;
+            font-size: 16px;
+            color: #000000;
             text-transform: uppercase;
             letter-spacing: 2px;
             opacity: 0.8;
-            transition: all 0.3s ease;
+            transition: all 0.4s ease;
             pointer-events: none;
+            animation: hintBounce 2s ease-in-out infinite;
+            font-weight: bold;
+            background: rgba(255, 255, 255, 0.8);
+            padding: 8px 16px;
+            border: 1px solid rgba(0, 0, 0, 0.3);
+            border-radius: 20px;
+        }
+
+        @keyframes hintBounce {
+            0%, 100% { 
+                opacity: 0.8; 
+                transform: translateX(-50%) translateY(0px);
+            }
+            50% { 
+                opacity: 1; 
+                transform: translateX(-50%) translateY(-5px);
+            }
         }
 
         .central-symbol:hover .click-hint {
             opacity: 1;
             color: #000000;
-            bottom: -55px;
+            bottom: -60px;
+            font-size: 14px;
+            letter-spacing: 3px;
+            animation: none;
         }
 
         .cryptic-text {
@@ -363,7 +453,7 @@
             <div class="logo-placeholder">
                 <img src="Progetto senza titolo (1).png" alt="Godless Token Logo">
             </div>
-            <div class="click-hint">Click to Enter the Void</div>
+            <div class="click-hint">Godless</div>
             <div class="cryptic-text" id="crypticText" style="top: -60px; left: 50%; transform: translateX(-50%);">He never arrived.</div>
             <div class="cryptic-text" style="bottom: -60px; left: 50%; transform: translateX(-50%);">The worship ended.</div>
             <div class="cryptic-text" style="left: -120px; top: 50%; transform: translateY(-50%);">We cast the coin to the void.</div>
@@ -573,4 +663,3 @@
 </body>
 
 </html>
-
